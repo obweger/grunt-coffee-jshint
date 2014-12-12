@@ -42,11 +42,10 @@ module.exports = function(grunt) {
 
               error.forEach(function(e) {
 
-                grunt.log.writeln(JSON.stringify(e));
+                grunt.log.writeln("Error: Line " + e.line + ", character " + e.character + ": " + e.reason);
               });
             });
           }
-
         });
     });
 };
