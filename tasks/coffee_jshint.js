@@ -9,6 +9,7 @@
 'use strict';
 
 var hintFiles = require("coffee-jshint/lib-js/hint");
+var _ = require("underscore");
 
 module.exports = function(grunt) {
 
@@ -26,8 +27,6 @@ module.exports = function(grunt) {
 
         this.filesSrc.forEach(function(filePath) {
 
-          grunt.log.writeln(filePath);
-
           var errors = hintFiles([ filePath ], {
 
             options: options.jshintOptions,
@@ -38,11 +37,16 @@ module.exports = function(grunt) {
 
           if ((errors != null) && (errors.length > 0)) {
 
+            grunt.log.writeln(filePath);
+
             errors.forEach(function(error) {
 
               error.forEach(function(e) {
 
-                grunt.log.writeln("Error: Line " + e.line + ", character " + e.character + ": " + e.reason);
+                _.each(e, function(v, k) {
+
+                  grunt.log.writeln(k + ": " + v);
+                });
               });
             });
           }
