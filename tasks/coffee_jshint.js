@@ -39,7 +39,12 @@ module.exports = function(grunt) {
           if ((errors != null) && (errors.length > 0)) {
 
             errors.forEach(function(error) {
-              grunt.log.writeln(error)
+
+              error.forEach(function(e) {
+
+                grunt.log.writeln(e);
+              });
+
             });
           }
         });
