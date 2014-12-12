@@ -57,13 +57,13 @@ module.exports = function(grunt) {
 
             if (effectiveErrors.length > 0) {
 
-              _.each(effectiveErrors, function(error)) {
+              _.each(effectiveErrors, function(error) {
 
                 _.each(error, function(v, k) {
 
                   grunt.log.writeln(k + ": " + v);
                 });
-              }
+              });
             }
           }
         });
