@@ -37,8 +37,6 @@ module.exports = function(grunt) {
 
           if ((errors != null) && (errors.length > 0)) {
 
-            grunt.log.writeln(filePath);
-
             var effectiveErrors = [];
 
             errors.forEach(function(errorEntry) {
@@ -56,6 +54,8 @@ module.exports = function(grunt) {
             });
 
             if (effectiveErrors.length > 0) {
+
+              grunt.log.writeln(filePath);
 
               _.each(effectiveErrors, function(error) {
 
