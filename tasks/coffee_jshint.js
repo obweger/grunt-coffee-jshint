@@ -39,16 +39,29 @@ module.exports = function(grunt) {
 
             grunt.log.writeln(filePath);
 
-            errors.forEach(function(error) {
+            var effectiveErrors = [];
 
-              error.forEach(function(e) {
-
-                _.each(e, function(v, k) {
-
-                  grunt.log.writeln(k + ": " + v);
-                });
+            errors.forEach(function(errorEntry) {
+              errorEntry.forEach(function(errorEntryEntry) {
+                effectiveErrors.push(errorEntryEntry);
               });
             });
+
+            effectiveErrors = _.filter(effectiveErrors, function(error) {
+
+              // W083 - Don't make functions within a loop.
+              // W007 - Confusing plusses.
+
+              return (error.code !== "W083") && (error.code !== "W007");
+            });
+
+            if (effectiveErrors.length > 0) {
+
+              _.each(effectiveErrors, function(v, k) {
+
+                grunt.log.writeln(k + ": " + v);
+              });
+            }
           }
         });
     });
