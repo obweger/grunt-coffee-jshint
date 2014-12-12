@@ -37,8 +37,7 @@ module.exports = function(grunt) {
           if ((errors != null) && (errors.length > 0)) {
 
             errors.forEach(function(error) {
-
-              grunt.verbose.writeln(errors)
+              grunt.verbose.writeln(error)
             });
           }
         });
