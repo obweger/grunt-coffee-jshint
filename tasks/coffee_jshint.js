@@ -26,6 +26,8 @@ module.exports = function(grunt) {
 
         this.filesSrc.forEach(function(filePath) {
 
+          grunt.log.writeln(filePath);
+
           var errors = hintFiles([ filePath ], {
 
             options: options.jshintOptions,
@@ -37,7 +39,7 @@ module.exports = function(grunt) {
           if ((errors != null) && (errors.length > 0)) {
 
             errors.forEach(function(error) {
-              grunt.verbose.writeln(error)
+              grunt.log.writeln(error)
             });
           }
         });
