@@ -34,8 +34,13 @@ module.exports = function(grunt) {
 
           }, false);
 
-          grunt.verbose.writeln(errors)
+          if ((errors != null) && (errors.length > 0)) {
 
+            errors.forEach(function(error) {
+
+              grunt.verbose.writeln(errors)
+            });
+          }
         });
     });
 };
