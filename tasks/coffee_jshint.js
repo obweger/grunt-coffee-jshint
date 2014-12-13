@@ -18,9 +18,8 @@ module.exports = function(grunt) {
         // Merge task-specific and/or target-specific options with these defaults.
         var options = this.options({
 
-            jshintOptions : [],
-            withDefaults : true,
-            globals : []
+            globals : [],
+            globallyIgnoredErrors : []
         });
 
         var files = this.filesSrc;
@@ -29,9 +28,9 @@ module.exports = function(grunt) {
 
           var errors = hintFiles([ filePath ], {
 
-            options: options.jshintOptions,
-            withDefaults: options.withDefaults,
-            globals: options.globals
+            options       : [],
+            withDefaults  : true,
+            globals       : options.globals
 
           }, false);
 
@@ -47,23 +46,30 @@ module.exports = function(grunt) {
 
             effectiveErrors = _.filter(effectiveErrors, function(error) {
 
-              // W083 - Don't make functions within a loop.
-              // W007 - Confusing plusses.
-
-              return (error.code !== "W083") && (error.code !== "W007");
+              return (!options.globallyIgnoredErrors.contains(error.code));
             });
 
             if (effectiveErrors.length > 0) {
 
+              grunt.log.write("Errors in file ")
               grunt.log.writeln(filePath);
 
               _.each(effectiveErrors, function(error) {
+                grunt.verbose.writeln(error.code + ": " + error.reason)
+              });
 
+              _.each(effectiveErrors, function(error) {
+                grunt.verbose.writeln("Details:")
                 _.each(error, function(v, k) {
-
-                  grunt.log.writeln(k + ": " + v);
+                  grunt.verbose.writeln(k + ": " + v);
                 });
               });
+
+            } else {
+
+              grunt.verbose.write(filePath + "... ");
+              grunt.verbose.ok();
+              grunt.verbose.writeln();
             }
           }
         });
