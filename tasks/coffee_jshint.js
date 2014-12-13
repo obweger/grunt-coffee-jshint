@@ -51,19 +51,20 @@ module.exports = function(grunt) {
 
             if (effectiveErrors.length > 0) {
 
-              grunt.log.write("Errors in file ")
-              grunt.log.writeln(filePath);
+              grunt.log.writeln("Errors in file " + filePath);
 
               _.each(effectiveErrors, function(error) {
-                grunt.verbose.writeln(error.code + ": " + error.reason)
+                grunt.verbose.writeln(error.code + ": " + error.reason);
               });
 
               _.each(effectiveErrors, function(error) {
-                grunt.verbose.writeln("Details:")
+                grunt.verbose.writeln("Details:");
                 _.each(error, function(v, k) {
                   grunt.verbose.writeln(k + ": " + v);
                 });
               });
+
+              grunt.warn.fail("Error in file " + filePath);
 
             } else {
 
