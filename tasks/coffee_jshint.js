@@ -46,7 +46,7 @@ module.exports = function(grunt) {
 
             effectiveErrors = _.filter(effectiveErrors, function(error) {
 
-              return (!options.globallyIgnoredErrors.contains(error.code));
+              return !(options.globallyIgnoredErrors.indexOf(error.code) >= 0);
             });
 
             if (effectiveErrors.length > 0) {
@@ -54,7 +54,7 @@ module.exports = function(grunt) {
               grunt.log.writeln("Errors in file " + filePath);
 
               _.each(effectiveErrors, function(error) {
-                grunt.verbose.writeln(error.code + ": " + error.reason);
+                grunt.log.writeln(error.code + ": " + error.reason);
               });
 
               _.each(effectiveErrors, function(error) {
