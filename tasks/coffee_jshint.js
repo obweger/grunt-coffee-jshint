@@ -13,6 +13,14 @@ var _ = require("underscore");
 
 module.exports = function(grunt) {
 
+    var cyan = function(str) {
+      return grunt.log.wordlist([ str ], { color : 'cyan' });
+    }
+
+    var red = function(str) {
+      return grunt.log.wordlist([ str ], { color : 'cyan' });
+    }
+
     grunt.registerMultiTask('coffee_jshint', 'grunt wrapper for coffee-jshint', function() {
 
         // Merge task-specific and/or target-specific options with these defaults.
@@ -44,33 +52,26 @@ module.exports = function(grunt) {
               });
             });
 
-            effectiveErrors = _.filter(effectiveErrors, function(error) {
+            _.each(effectiveErrors, function(error) {
 
-              return !(options.globallyIgnoredErrors.indexOf(error.code) >= 0);
-            });
+              if (!(options.globallyIgnoredErrors.indexOf(error.code) >= 0)) {
 
-            if (effectiveErrors.length > 0) {
+                grunt.log.writeln("Error in file " + cyan(filePath));
+                grunt.log.writeln(red(error.code + ": " + error.reason));
 
-              grunt.log.writeln("Errors in file " + grunt.log.wordlist([ filePath ], { color : 'cyan' }));
-
-              _.each(effectiveErrors, function(error) {
-                grunt.log.writeln(grunt.log.wordlist([ error.code + ": " + error.reason ], { color : 'red' }));
-              });
-
-              _.each(effectiveErrors, function(error) {
+                // log details in verbose mode
                 grunt.verbose.writeln("Details:");
                 _.each(error, function(v, k) {
-                  grunt.verbose.writeln(k + ": " + v);
+                  grunt.verbose.writeln(" - Property " + k + ": " + v);
                 });
-              });
 
-              grunt.fail.warn("Error in file " + filePath);
+                grunt.fail.warn("Error in file " + filePath);
 
-            } else {
+              } else {
 
-              grunt.verbose.write(filePath + "... ");
-              grunt.verbose.ok();
-            }
+                grunt.log.writeln("Globally ignored error " + cyan(error.code) + " in file " + cyan(filePath));
+              }
+            });
           }
         });
     });
