@@ -18,7 +18,7 @@ module.exports = function(grunt) {
     }
 
     var red = function(str) {
-      return grunt.log.wordlist([ str ], { color : 'cyan' });
+      return grunt.log.wordlist([ str ], { color : 'red' });
     }
 
     grunt.registerMultiTask('coffee_jshint', 'grunt wrapper for coffee-jshint', function() {
@@ -57,7 +57,7 @@ module.exports = function(grunt) {
               if (!(options.globallyIgnoredErrors.indexOf(error.code) >= 0)) {
 
                 grunt.log.writeln("Error in file " + cyan(filePath));
-                grunt.log.writeln(red(error.code + ": " + error.reason));
+                grunt.log.writeln(red(error.code + ": " + error.reason + " (line " + error.line + ", character " + error.character + ")"));
 
                 // log details in verbose mode
                 grunt.verbose.writeln("Details:");
