@@ -51,10 +51,10 @@ module.exports = function(grunt) {
 
             if (effectiveErrors.length > 0) {
 
-              grunt.log.writeln("Errors in file " + filePath);
+              grunt.log.writeln("Errors in file " + grunt.log.wordlist([ filePath ], { color : 'cyan' }));
 
               _.each(effectiveErrors, function(error) {
-                grunt.log.writeln(error.code + ": " + error.reason);
+                grunt.log.writeln(grunt.log.wordlist([ error.code + ": " + error.reason ], { color : 'red' }));
               });
 
               _.each(effectiveErrors, function(error) {
@@ -64,13 +64,12 @@ module.exports = function(grunt) {
                 });
               });
 
-              grunt.warn.fail("Error in file " + filePath);
+              grunt.fail.warn("Error in file " + filePath);
 
             } else {
 
               grunt.verbose.write(filePath + "... ");
               grunt.verbose.ok();
-              grunt.verbose.writeln();
             }
           }
         });
